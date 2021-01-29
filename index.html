@@ -2,12 +2,11 @@
 <html>
 <body>
 
-<p>Click the button to get your coordinates.</p>
+<p>Your current position</p>
 
-<button onclick="getLocation()">Try It</button>
 
 <p id="demo"></p>
-<h3 style="color:red" id="cnt"></h3>
+<h2 style="color:red" id="cnt"></h2>
 <script>
 var x = document.getElementById("demo");
 var count = 0;
@@ -15,7 +14,7 @@ var count = 0;
 
 function getLocation() {
    
-    count++;
+  count++;
   if (navigator.geolocation) {
     navigator.geolocation.watchPosition(showPosition);
   } else { 
@@ -25,22 +24,98 @@ function getLocation() {
 }
     
 function showPosition(position) {
-   // x.innerHTML="Latitude: <h1>" + position.coords.latitude + 
-    //"</h1><h1>Longitude: " + position.coords.longitude + "</h1>";
     var lat = position.coords.latitude
-    var latitude = lat.toFixed(6);
+    var latitude = lat.toFixed(7);
     var lng = position.coords.longitude;
-    var longitude = lng.toFixed(6);
+    var longitude = lng.toFixed(7);
 
-    x.innerHTML = "lat: " + latitude + "lng: "+ longitude;
-    
+    x.innerHTML = "lat: <h3>" + latitude + "</h3> lng: <h3>"+ longitude + "</h3> "+ Math.round(Date.now()/1000);
+    var y = postData(latitude,longitude);
+    console.log(y);
+}
+
+function postData(lat,lng) {
+    const Data = [ 
+    {
+    "api_token": "LoxGekEl0KKzGWhDLKI2",
+    "data": {
+    "DS": 0,
+    "DT": 0,
+    "EQ": 3,
+    "GS": 0,
+    "HA": 0,
+    "HB": 0,
+    "HM": 2,
+    "HT": 0,
+    "SS": 24,
+    "SV": 12.83,
+    "AN01": -1,
+    "AN02": -1,
+    "AN03": -1,
+    "AN04": -1,
+    "AN05": -1,
+    "AN06": -1,
+    "AN07": -1,
+    "AN08": 0,
+    "AN09": -1,
+    "AN10": 5,
+    "AN11": 29,
+    "AN12": 0,
+    "DI01": 0,
+    "DI02": 0,
+    "DI03": -1,
+    "DI04": -1,
+    "DI05": -1,
+    "DI06": -1,
+    "LG01": -1,
+    "LG02": -1,
+    "LG03": -1,
+    "LG04": -1,
+    "LG05": 0,
+    "GPS_LOCATION": lat+","+lng
+
+    },
+    "const": {
+        "ANLP": 1,
+        "BATV": 3.9,
+        "CFLG": 0,
+        "DGIP": 0,
+        "DSTA": 0,
+        "MBAC": 0,
+        "NCID": 28388,
+        "NLAC": 63710,
+        "NMCC": 413,
+        "NMNC": 1,
+        "OTAS": 0,
+        "RSSI": 21,
+        "SFLG": 0,
+        "SUPV": 14.54,
+        "UTIM": Math.round(Date.now()/1000)
+    }
+}
+     ];
+
+const payload = {
+  topic: 'topic',
+  logs: Data,
+};
+
+const url = 'https://utechconnected.tk/trackbox/public/api/assetDataJson';
+
+axios.post(url,Data)
+  .then(function (response) {
+    console.log(response.data);
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+
 }
 
 var intervalId = window.setInterval(function(){
   /// call your function here
- 
   getLocation()
-}, 1000);
+}, 3000);
 </script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </body>

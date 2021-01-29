@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<p>Click the button to get your coordinates.</p>
+
+<button onclick="getLocation()">Try It</button>
+
+<p id="demo"></p>
+<h3 style="color:red" id="cnt"></h3>
+<script>
+var x = document.getElementById("demo");
+var count = 0;
+
+
+function getLocation() {
+   
+    count++;
+  if (navigator.geolocation) {
+    navigator.geolocation.watchPosition(showPosition);
+  } else { 
+    x.innerHTML = "Geolocation is not supported by this browser.";
+  }
+  cnt.innerHTML = count;
+}
+    
+function showPosition(position) {
+   // x.innerHTML="Latitude: <h1>" + position.coords.latitude + 
+    //"</h1><h1>Longitude: " + position.coords.longitude + "</h1>";
+    var lat = position.coords.latitude
+    var latitude = lat.toFixed(6);
+    var lng = position.coords.longitude;
+    var longitude = lng.toFixed(6);
+
+    x.innerHTML = "lat: " + latitude + "lng: "+ longitude;
+    
+}
+
+var intervalId = window.setInterval(function(){
+  /// call your function here
+ 
+  getLocation()
+}, 1000);
+</script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</body>
+</html>

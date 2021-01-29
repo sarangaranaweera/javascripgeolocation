@@ -2,7 +2,7 @@
 <html>
 <body>
 
-<p>Your current position</p>
+<p>Your current position 01</p>
 
 
 <p id="demo"></p>
@@ -95,14 +95,14 @@ function postData(lat,lng) {
 }
      ];
 
-const payload = {
-  topic: 'topic',
-  logs: Data,
-};
+     const headers = {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+    };
 
 const url = 'https://utechconnected.tk/trackbox/public/api/assetDataJson';
 
-axios.post(url,Data)
+axios.post(url,Data,{headers})
   .then(function (response) {
     console.log(response.data);
   })
